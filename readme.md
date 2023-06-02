@@ -1,1 +1,1 @@
-this is coode for beginner 
+this is code for beginner 
