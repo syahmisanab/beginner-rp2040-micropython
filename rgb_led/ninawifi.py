@@ -135,11 +135,20 @@ def ninapin_digital_write(pin, value):
     send_command(_SET_DIGITAL_WRITE, [[pin], [value]])
     return read_response()
 
+def ninapin_analog_write(pin, value):
+    if value < 0 or value > 255:
+        raise ValueError("Analog value must be between 0 and 255.")
+
+    inverted_value = 255 - value  # Reverse the value
+
+    send_command(_SET_ANALOG_WRITE, [bytes([pin]), bytes([inverted_value])])
+    return read_response()
+
 def initialize_leds():
     reset()
 
     for pin in [LEDR, LEDG, LEDB]:
         set_ninapin_mode(pin, Pin.OUT)
         ninapin_digital_write(pin, 0)
-
+        
 
