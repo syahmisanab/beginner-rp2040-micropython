@@ -1,0 +1,19 @@
+import machine
+import time
+import ninawifi
+
+ninawifi.initialize_leds()
+
+while True:
+    time.sleep(0.5)
+    ninawifi.ninapin_digital_write(ninawifi.LEDR, 1)
+    ninawifi.ninapin_digital_write(ninawifi.LEDG, 0)
+    ninawifi.ninapin_digital_write(ninawifi.LEDB, 0)
+    time.sleep(0.5)
+    ninawifi.ninapin_digital_write(ninawifi.LEDR, 0)
+    ninawifi.ninapin_digital_write(ninawifi.LEDG, 1)
+    ninawifi.ninapin_digital_write(ninawifi.LEDB, 0)
+    time.sleep(0.5)
+    ninawifi.ninapin_digital_write(ninawifi.LEDR, 0)
+    ninawifi.ninapin_digital_write(ninawifi.LEDG, 0)
+    ninawifi.ninapin_digital_write(ninawifi.LEDB, 1)
