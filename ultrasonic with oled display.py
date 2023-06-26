@@ -12,8 +12,8 @@ i2c = I2C(-0, scl=Pin(4), sda=Pin(4))
 
 oled = ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT, i2c)
 
-trigger = Pin(3, Pin.OUT)
-echo = Pin(2, Pin.IN)
+trigger = Pin(16, Pin.OUT)
+echo = Pin(17, Pin.IN)
 
 def display_text(text):
     oled.fill(0)
