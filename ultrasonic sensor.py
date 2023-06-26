@@ -1,8 +1,8 @@
 from machine import Pin
 import utime
 
-trigger = Pin(3, Pin.OUT)
-echo = Pin(2, Pin.IN)
+trigger = Pin(16, Pin.OUT)
+echo = Pin(17, Pin.IN)
 
 distance = 0
 def ultrasound():
