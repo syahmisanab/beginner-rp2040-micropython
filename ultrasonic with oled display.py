@@ -6,9 +6,9 @@ import utime
 OLED_WIDTH = 128
 OLED_HEIGHT = 64
 
-i2c = I2C(-0, scl=Pin(1), sda=Pin(0))
-# If using ESP8266, you might need to specify the I2C pins differently, e.g.:
-# i2c = I2C(-1, scl=Pin(5), sda=Pin(4))
+i2c = I2C(-0, scl=Pin(4), sda=Pin(4))
+# If using raspi rp2040, you might need to specify the I2C pins differently, e.g.:
+# i2c = I2C(0, scl=Pin(1), sda=Pin(0))
 
 oled = ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT, i2c)
 
