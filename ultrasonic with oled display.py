@@ -6,7 +6,7 @@ import utime
 OLED_WIDTH = 128
 OLED_HEIGHT = 64
 
-i2c = I2C(-0, scl=Pin(4), sda=Pin(4))
+i2c = I2C(-0, scl=Pin(5), sda=Pin(4))
 # If using raspi rp2040, you might need to specify the I2C pins differently, e.g.:
 # i2c = I2C(0, scl=Pin(1), sda=Pin(0))
 
