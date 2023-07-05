@@ -1,6 +1,8 @@
 # MOTOR_SPEEDS   'm' (LEFT_MOTOR, RIGHT_MOTOR)
 # DIGITAL_WRITE  'w' (PIN, 1=HIGH & 0=LOW)
 # ANALOG_WRITE   'x' (PIN, 0-255)
+# DIGITAL_WRITE  'd'
+# ANALOG_READ    'a'
 
 from machine import Pin, UART
 import time
