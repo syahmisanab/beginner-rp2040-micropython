@@ -1,0 +1,42 @@
+import ssd1306
+from machine import Pin, I2C, UART
+import time
+
+# Define OLED parameters
+OLED_WIDTH = 128
+OLED_HEIGHT = 64
+
+# Define I2C pins
+i2c = I2C(0, scl=Pin(5), sda=Pin(4), freq=400000)
+
+# Create OLED object
+oled = ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT, i2c)
+
+# Clear the display
+oled.fill(0)
+oled.show()
+
+# Display potentiometer value on OLED
+def display_text(text):
+    oled.fill(0)  # Clear the display
+    oled.text("Potentiometer:", 0, 0)  # Write label at top-left corner
+    oled.text(text, 0, 15)  # Write value at specified position
+    oled.show()  # Update the display
+
+# Configure UART
+uart = UART(0, baudrate=57600, tx=Pin(0), rx=Pin(1))
+uart.init(bits=8, parity=None, stop=1)
+
+# Main program loop
+while True:
+    command = input("Enter the command: ")
+    uart.write("")
+    uart.write(command + "\r\n")
+    uart.write("")
+    time.sleep(3)
+    
+    if uart.any():
+        data = uart.read()
+        data_str = data.decode().strip()
+        display_text(data_str)
+        print(data_str)
