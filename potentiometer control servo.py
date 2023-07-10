@@ -7,7 +7,7 @@ from servo import Servo
 adc = machine.ADC(machine.Pin(26))
 
 # Create a servo object
-servo = Servo(2)  # Servo pin is connected to GP0
+servo = Servo(0)  # Servo pin is connected to GP0
 
 def servo_Map(x, in_min, in_max, out_min, out_max):
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
