@@ -1,0 +1,48 @@
+import machine
+import utime
+from neopixel import NeoPixel
+
+# Define the pin numbers for the button and the Neopixel data pin
+button_pin = machine.Pin(20, machine.Pin.IN, machine.Pin.PULL_UP)
+neopixel_pin = machine.Pin(26, machine.Pin.OUT)
+
+# Define the number of Neopixels in the strip
+num_pixels = 10
+
+# Initialize the Neopixel strip
+neopixels = NeoPixel(neopixel_pin, num_pixels)
+
+# Function to set the color of an individual Neopixel
+def set_neopixel_color(pixel_index, red, green, blue):
+    neopixels[pixel_index] = (red, green, blue)
+    neopixels.write()
+
+while True:
+    if button_pin.value() == 1:  # Check if the button is pressed (LOW)
+        set_neopixel_color(0, 255, 0, 0)  # Set the color of the first Neopixel to red
+        set_neopixel_color(1, 0, 255, 0)  # Set the color of the second Neopixel to green
+        set_neopixel_color(2, 0, 255, 255)  # Turn off the second Neopixel
+        set_neopixel_color(3, 0, 0, 255)  # Turn off the second Neopixel
+        set_neopixel_color(4, 255, 1, 0)  # Turn off the second Neopixel
+        set_neopixel_color(5, 255, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(6, 255, 255, 1)  # Turn off the second Neopixel
+        set_neopixel_color(7, 1, 255, 255)  # Turn off the second Neopixel
+        set_neopixel_color(8, 255, 255, 0)  # Turn off the second Neopixel
+        set_neopixel_color(9, 255, 255, 255)  # Turn off the second Neopixel
+        # Add more set_neopixel_color calls to control other Neopixels individually
+    else:
+        set_neopixel_color(0, 0, 0, 0)  # Turn off the first Neopixel
+        set_neopixel_color(1, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(2, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(3, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(4, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(5, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(6, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(7, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(8, 0, 0, 0)  # Turn off the second Neopixel
+        set_neopixel_color(9, 0, 0, 0)  # Turn off the second Neopixel
+        # Add more set_neopixel_color calls to turn off other Neopixels individually
+
+    # Add additional code logic or delays here if needed
+    utime.sleep(0.1)  # Small delay to debounce the button
+
