@@ -1,0 +1,31 @@
+#include <Adafruit_NeoPixel.h>
+
+#define LED_PIN 7
+#define NUM_LEDS 10
+
+Adafruit_NeoPixel strip(NUM_LEDS, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+void setup() {
+  strip.begin();
+  strip.show(); // Initialize all pixels to off
+}
+
+void loop() {
+  setNeoPixelColor(0, 255, 0, 0);    // Set the color of the first Neopixel to red
+  setNeoPixelColor(1, 0, 255, 0);    // Set the color of the second Neopixel to green
+  setNeoPixelColor(2, 0, 255, 255);  // Set the color of the third Neopixel to cyan
+  setNeoPixelColor(3, 0, 0, 255);    // Set the color of the fourth Neopixel to blue
+  setNeoPixelColor(4, 255, 1, 0);    // Set the color of the fifth Neopixel to orange
+  setNeoPixelColor(5, 255, 0, 0);    // Set the color of the sixth Neopixel to red
+  setNeoPixelColor(6, 255, 255, 1);  // Set the color of the seventh Neopixel to yellow
+  setNeoPixelColor(7, 1, 255, 255);  // Set the color of the eighth Neopixel to light blue
+  setNeoPixelColor(8, 255, 255, 0);  // Set the color of the ninth Neopixel to yellow
+  setNeoPixelColor(9, 255, 255, 255);// Set the color of the tenth Neopixel to white
+
+  strip.show();
+  delay(1000); // Delay for 1 second before changing colors
+}
+
+void setNeoPixelColor(int ledNum, int red, int green, int blue) {
+  strip.setPixelColor(ledNum, strip.Color(red, green, blue));
+}
