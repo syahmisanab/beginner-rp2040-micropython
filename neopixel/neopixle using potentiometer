@@ -1,0 +1,38 @@
+import machine
+import utime
+from neopixel import NeoPixel
+
+# Define the pin numbers for the potentiometer and the Neopixel data pin
+potentiometer_pin = machine.ADC(26)  # Analog input pin for the potentiometer
+neopixel_pin = machine.Pin(27, machine.Pin.OUT)
+
+# Define the number of LEDs in the strip
+num_leds = 11
+
+# Initialize the Neopixel strip
+neopixels = NeoPixel(neopixel_pin, num_leds)
+
+# Function to set the color of an individual LED
+def set_led_color(led_index, red, green, blue):
+    neopixels[led_index] = (red, green, blue)
+    neopixels.write()
+
+# Read the potentiometer value and map it to the number of LEDs to be turned on
+def map_potentiometer_to_leds(value, in_min, in_max, out_min, out_max):
+    return (value - in_min) * (out_max - out_min) // (in_max - in_min) + out_min
+
+while True:
+    # Read the potentiometer value and map it to the number of LEDs
+    pot_value = potentiometer_pin.read_u16()
+    num_leds_on = map_potentiometer_to_leds(pot_value, 0, 65535, 1, num_leds)
+
+    # Turn on the corresponding number of LEDs
+    for i in range(num_leds):
+        if i < num_leds_on:
+            set_led_color(i, 255, 0, 0)  # Set the color to red
+        else:
+            set_led_color(i, 0, 0, 0)  # Turn off the LED
+
+    # Add additional code logic or delays here if needed
+    utime.sleep(0.1)  # Small delay
+
