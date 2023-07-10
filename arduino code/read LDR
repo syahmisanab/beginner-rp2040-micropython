@@ -1,0 +1,11 @@
+const int lightPin = A0;  // Analog input pin connected to the light sensor
+
+void setup() {
+  Serial.begin(9600);  // Initialize serial communication
+}
+
+void loop() {
+  int lightValue = analogRead(lightPin);  // Read the analog value from the light sensor
+  Serial.println(lightValue);  // Print the light value to the serial monitor
+  delay(1000);  // Wait for 1 second before reading again
+}
