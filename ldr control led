@@ -1,11 +1,11 @@
-from machine import ADC
+from machine import ADC, Pin
 import time
 
 # Define the ADC pin connected to the light sensor
 light_pin = ADC(26)
 
 # Define the pin connected to the LED
-led_pin = Pin(13, Pin.OUT)
+led_pin = Pin(6, Pin.OUT)
 
 while True:
     # Read the analog value from the light sensor
@@ -22,3 +22,4 @@ while True:
 
     # Add a delay before the next reading
     time.sleep(1)
+
