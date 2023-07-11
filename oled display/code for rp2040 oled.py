@@ -26,7 +26,6 @@ def display_text(text):
 
 # Main program loop
 while True:
-    display_text("Hello, World!")
-    time.sleep(2)
-    display_text("MicroPython OLED")
-    time.sleep(2)
+    oled.fill(0)
+    oled.text("hello world", 0, 10)
+    oled.show()
