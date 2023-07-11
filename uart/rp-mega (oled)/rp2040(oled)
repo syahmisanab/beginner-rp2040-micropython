@@ -1,5 +1,5 @@
 import ssd1306
-from machine import Pin, I2C
+from machine import Pin, I2C, UART
 
 # Define OLED parameters
 OLED_WIDTH = 128
@@ -14,6 +14,10 @@ oled = ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT, i2c)
 # Clear the display
 oled.fill(0)
 oled.show()
+
+# Configure UART pins
+uart = UART(0, baudrate=115200, tx=Pin(0), rx=Pin(1))
+uart.init(bits=8, parity=None, stop=1)
 
 # Display some text
 def display_text(text):
