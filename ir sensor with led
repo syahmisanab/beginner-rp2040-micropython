@@ -1,0 +1,18 @@
+from machine import Pin
+import time
+
+# Connect the FC-51 sensor to a digital input pin
+sensor_pin = Pin(4, Pin.IN)
+
+# Connect an LED to a digital output pin
+led_pin = Pin(5, Pin.OUT)
+
+while True:
+    if sensor_pin.value() == 0:
+        print("Obstacle detected!")
+        led_pin.on()  # Turn on the LED
+    else:
+        print("No obstacle detected.")
+        led_pin.off()  # Turn off the LED
+    time.sleep(1)
+
