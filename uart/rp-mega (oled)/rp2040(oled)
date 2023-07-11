@@ -1,0 +1,31 @@
+import ssd1306
+from machine import Pin, I2C
+
+# Define OLED parameters
+OLED_WIDTH = 128
+OLED_HEIGHT = 64
+
+# Define I2C pins
+i2c = I2C(0, scl=Pin(1), sda=Pin(0))
+
+# Create OLED object
+oled = ssd1306.SSD1306_I2C(OLED_WIDTH, OLED_HEIGHT, i2c)
+
+# Clear the display
+oled.fill(0)
+oled.show()
+
+# Display some text
+def display_text(text):
+    oled.fill(0)  # Clear the display
+    oled.text(text, 0, 0)  # Write text at top-left corner
+    oled.show()  # Update the display
+
+# Main program loop
+while True:
+    if uart.any():
+        receivedChar = uart.read(1)
+        if receivedChar == b'1':
+            display_text("Button Pressed")
+    else:
+        display_text("Waiting for Input")
