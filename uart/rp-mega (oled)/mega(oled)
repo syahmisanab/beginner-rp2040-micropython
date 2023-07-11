@@ -1,0 +1,16 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial mySerial(10, 11); // RX, TX pins for SoftwareSerial communication
+int buttonPin = 2; // Pin connected to the button
+
+void setup() {
+  mySerial.begin(115200); // Set baud rate for SoftwareSerial
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+
+void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    mySerial.write('1');
+    delay(200); // Add a small delay to debounce the button
+  }
+}
