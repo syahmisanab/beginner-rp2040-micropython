@@ -1,0 +1,13 @@
+import machine
+
+buttonPin = machine.Pin(2, machine.Pin.IN, machine.Pin.PULL_DOWN)  # Button connected to GPIO 2
+uart = machine.UART(0, baudrate=115200, tx=machine.Pin(0), rx=machine.Pin(1))
+uart.init(bits=8, parity=None, stop=2)
+
+def button_callback(pin):
+    uart.write('1')
+
+buttonPin.irq(trigger=machine.Pin.IRQ_RISING, handler=button_callback)
+
+while True:
+    pass
