@@ -40,6 +40,7 @@ void setup() {
 void loop() {
 
   forward();
+	/*
   stopped()
   Backward();
   stopped()
@@ -47,7 +48,7 @@ void loop() {
   stopped()
   left();
   stopped()
-
+*/
 
 }
 
