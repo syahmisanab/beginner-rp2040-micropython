@@ -1,92 +1,98 @@
-#include <WebServer.h>
-#include <WiFi.h>
-#include <esp32cam.h>
+
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+import cv2
+import matplotlib.pyplot as plt
+import cvlib as cv
+import urllib.request
+import numpy as np
+from cvlib.object_detection import draw_bbox
+import concurrent.futures
  
-const char* WIFI_SSID = "ssid";
-const char* WIFI_PASS = "password";
+url='http://192.168.10.162/cam-hi.jpg'
+im=None
  
-WebServer server(80);
+def run1():
+    cv2.namedWindow("live transmission", cv2.WINDOW_AUTOSIZE)
+    while True:
+        img_resp=urllib.request.urlopen(url)
+        imgnp=np.array(bytearray(img_resp.read()),dtype=np.uint8)
+        im = cv2.imdecode(imgnp,-1)
  
+        cv2.imshow('live transmission',im)
+        key=cv2.waitKey(5)
+        if key==ord('q'):
+            break
+            
+    cv2.destroyAllWindows()
+        
+def run2():
+    cv2.namedWindow("detection", cv2.WINDOW_AUTOSIZE)
+    while True:
+        img_resp=urllib.request.urlopen(url)
+        imgnp=np.array(bytearray(img_resp.read()),dtype=np.uint8)
+        im = cv2.imdecode(imgnp,-1)
  
-static auto loRes = esp32cam::Resolution::find(320, 240);
-static auto midRes = esp32cam::Resolution::find(350, 530);
-static auto hiRes = esp32cam::Resolution::find(800, 600);
-void serveJpg()
-{
-  auto frame = esp32cam::capture();
-  if (frame == nullptr) {
-    Serial.println("CAPTURE FAIL");
-    server.send(503, "", "");
-    return;
-  }
-  Serial.printf("CAPTURE OK %dx%d %db\n", frame->getWidth(), frame->getHeight(),
-                static_cast<int>(frame->size()));
+        bbox, label, conf = cv.detect_common_objects(im)
+        im = draw_bbox(im, bbox, label, conf)
  
-  server.setContentLength(frame->size());
-  server.send(200, "image/jpeg");
-  WiFiClient client = server.client();
-  frame->writeTo(client);
-}
- 
-void handleJpgLo()
-{
-  if (!esp32cam::Camera.changeResolution(loRes)) {
-    Serial.println("SET-LO-RES FAIL");
-  }
-  serveJpg();
-}
- 
-void handleJpgHi()
-{
-  if (!esp32cam::Camera.changeResolution(hiRes)) {
-    Serial.println("SET-HI-RES FAIL");
-  }
-  serveJpg();
-}
- 
-void handleJpgMid()
-{
-  if (!esp32cam::Camera.changeResolution(midRes)) {
-    Serial.println("SET-MID-RES FAIL");
-  }
-  serveJpg();
-}
+        cv2.imshow('detection',im)
+        key=cv2.waitKey(5)
+        if key==ord('q'):
+            break
+            
+    cv2.destroyAllWindows()
  
  
-void  setup(){
-  Serial.begin(115200);
-  Serial.println();
-  {
-    using namespace esp32cam;
-    Config cfg;
-    cfg.setPins(pins::AiThinker);
-    cfg.setResolution(hiRes);
-    cfg.setBufferCount(2);
-    cfg.setJpeg(80);
  
-    bool ok = Camera.begin(cfg);
-    Serial.println(ok ? "CAMERA OK" : "CAMERA FAIL");
-  }
-  WiFi.persistent(false);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(WIFI_SSID, WIFI_PASS);
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-  }
-  Serial.print("http://");
-  Serial.println(WiFi.localIP());
-  Serial.println("  /cam-lo.jpg");
-  Serial.println("  /cam-hi.jpg");
-  Serial.println("  /cam-mid.jpg");
- 
-  server.on("/cam-lo.jpg", handleJpgLo);
-  server.on("/cam-hi.jpg", handleJpgHi);
-  server.on("/cam-mid.jpg", handleJpgMid);
- 
-  server.begin();
-}
- 
-void loop()
-{
-  server.handleClient();
-}
+if __name__ == '__main__':
+    print("started")
+    with concurrent.futures.ProcessPoolExecutor() as executer:
+            f1= executer.submit(run1)
+            f2= executer.submit(run2)
